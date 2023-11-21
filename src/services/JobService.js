@@ -37,3 +37,5 @@ const JobService = {
   removeAll,
   findByTitle
 };
+
+export default JobService;
