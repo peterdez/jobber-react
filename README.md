@@ -1,3 +1,5 @@
 # Jobs board application built with React and Redux
 
-This ia part of a MERN Stack application
+This is part of a MERN Stack application
+
+![alt text](https://webpromedia.com.ng/resources/jobber_scrnshot.jpg)
