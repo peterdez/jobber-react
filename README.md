@@ -1,4 +1,4 @@
-# Job board application built with React and Redux
+# Job board application admin dashboard built with React and Redux
 
 This is part of a MERN Stack application
 
