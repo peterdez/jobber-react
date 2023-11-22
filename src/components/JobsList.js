@@ -16,17 +16,15 @@ const JobsList = () => {
   const dispatch = useDispatch();
 
   const renderedJobs = jobs &&
-            jobs.map((job, index) => (
-                <tr className={
-                    "bg-white rounded mb-2" + (index === currentIndex ? "active" : "")
-                }>
+            jobs.map((job, key) => (
+                <tr className="bg-white rounded mb-2" key="job._id">
                     <td>
             <div className="form-check">
               <input className="form-check-input" type="checkbox" value="" id=""/>
             </div>
             </td>
                 <td>
-                {job.title}
+                <Link to={`/jobs/${job._id}`}>{job.title}</Link>
                 </td>
                 <td>
                 {job.role}
