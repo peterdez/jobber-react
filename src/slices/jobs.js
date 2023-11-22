@@ -54,32 +54,31 @@ export const findJobsByTitle = createAsyncThunk(
 const jobSlice = createSlice({
   name: "job",
   initialState,
-  extraReducers: {
-    [createJob.fulfilled]: (state, action) => {
+  extraReducers(builder) {
+    builder.addCase(createJob.fulfilled, (state, action) => {
       state.push(action.payload);
-    },
-    [retrieveJobs.fulfilled]: (state, action) => {
+    })
+    .addCase(retrieveJobs.fulfilled, (state, action) => {
       return [...action.payload];
-    },
-    [updateJob.fulfilled]: (state, action) => {
+    })
+    .addCase(updateJob.fulfilled, (state, action) => {
       const index = state.findIndex(job => job.id === action.payload.id);
-      state[index] = {
-        ...state[index],
-        ...action.payload,
-      };
-    },
-    [deleteJob.fulfilled]: (state, action) => {
-      let index = state.findIndex(({ id }) => id === action.payload.id);
-      state.splice(index, 1);
-    },
-    [deleteAllJobs.fulfilled]: (state, action) => {
+        state[index] = {
+          ...state[index],
+          ...action.payload,
+        };
+    })
+    .addCase(deleteJob.fulfilled, (state, action) => {
       return [];
-    },
-    [findJobsByTitle.fulfilled]: (state, action) => {
+    })
+    .addCase(deleteAllJobs.fulfilled, (state, action) => {
+      return [];
+    })
+    .addCase(findJobsByTitle.fulfilled, (state, action) => {
       return [...action.payload];
-    },
-  },
-});
+    })
+  }
+})
 
 const { reducer } = jobSlice;
 export default reducer;

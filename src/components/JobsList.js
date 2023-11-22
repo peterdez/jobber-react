@@ -15,6 +15,34 @@ const JobsList = () => {
   const jobs = useSelector(state => state.jobs);
   const dispatch = useDispatch();
 
+  const renderedJobs = jobs &&
+            jobs.map((job, index) => (
+                <tr className={
+                    "bg-white rounded mb-2" + (index === currentIndex ? "active" : "")
+                }>
+                    <td>
+            <div className="form-check">
+              <input className="form-check-input" type="checkbox" value="" id=""/>
+            </div>
+            </td>
+                <td>
+                {job.title}
+                </td>
+                <td>
+                {job.role}
+                </td>
+                <td>
+                {job.company}
+                </td>
+                <td>
+                {new Date(job.createdAt).toLocaleDateString()}
+                </td>
+                <td>
+                {job.salary ? "₦" + job.salary : ""}
+                </td>
+                </tr>
+                ))
+
   const onChangeSearchTitle = e => {
     const searchTitle = e.target.value;
     setSearchTitle(searchTitle);
@@ -55,7 +83,6 @@ const JobsList = () => {
 
   return (
   <>
-   {/*<h1 className="h3 mb-4 text-gray-800">Blank Page</h1>*/}
     <div className="d-flex align-items-center justify-content-between py-4 border-bottom px-5">
         <div><h1 className="h1 m-0 fw-bold">Jobs</h1></div>
         <div>
@@ -65,7 +92,7 @@ const JobsList = () => {
         </div>
       </div>
       <nav className="nav nav-pills nav-pills-index nav-justified px-5">
-        <a className="nav-link rounded-0 text-start ps-0 active" aria-current="page" href="/jobs">All Gigs <span className="badge bg-secondary">8</span></a>
+        <a className="nav-link rounded-0 text-start ps-0 active" aria-current="page" href="/jobs">All Gigs <span className="badge bg-secondary">{jobs.length}</span></a>
         <a className="nav-link rounded-0" href="/jobs/my-jobs">My Jobs <span className="badge bg-secondary-b">32</span></a>
         <a className="nav-link rounded-0" href="#">Rejected Jobs <span className="badge bg-secondary-b">25</span></a>
       </nav>
@@ -117,35 +144,7 @@ const JobsList = () => {
             </tr>
           </thead>
           <tbody>
-          {jobs &&
-            jobs.map((job, index) => (
-                <tr className={
-                    "bg-white rounded mb-2" + (index === currentIndex ? "active" : "")
-                }>
-                    <td>
-            <div className="form-check">
-              <input className="form-check-input" type="checkbox" value="" id=""/>
-            </div>
-            </td>
-                <td>
-                {job.title}
-                </td>
-                <td>
-                {job.role}
-                </td>
-                <td>
-                {job.company}
-                </td>
-                <td>
-                {new Date(job.createdAt).toLocaleDateString()}
-                </td>
-                <td>
-                {job.salary ? "₦" + job.salary : ""}
-                </td>
-                </tr>
-                ))}
-
-        
+          {renderedJobs}
           </tbody>
         </table>
         
