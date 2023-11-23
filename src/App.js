@@ -13,6 +13,7 @@ import profilePic from './profile-pic.jpg';
 import AddJob from "./components/AddJob";
 import JobsList from "./components/JobsList";
 import { SingleJobPage } from './components/SingleJobPage';
+import EditJob from './components/EditJob';
 
 function App() {
     const [butToggled, setButToggled] = useState(false);
@@ -245,6 +246,7 @@ function App() {
                       <Route path="/jobs" element={<JobsList/>} />
                       <Route path="/add" element={<AddJob/>} />
                       <Route path="/jobs/:id" element={<SingleJobPage/>} />
+                      <Route path="/editJob/:id" element={<EditJob/>} />
                     </Routes>
 
                 </div>

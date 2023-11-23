@@ -5,72 +5,80 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import logo from '../logo.png';
 
-export default function Sidebar({butToggled, onToggleClick}) {
 
-    const DashMenuList = () => {
-        const refDash = useRef(null);
-        let dashDivShow = "";
+const DashMenuList = ({theButToggled}) => {
+    const refDash = useRef(null);
+    let dashDivShow = "";
 
-        // 👇️ check if element contains class on mount
-        useEffect(() => {
-            if (refDash.current.classList.contains('show') && butToggled == true) {
-                dashDivShow = "";
-            }
-        }, []);
-        return (
-            <li className="nav-item">
-            <Link className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                aria-expanded="true" aria-controls="collapseTwo">
-                <i className="fas fa-fw fa-cog"></i>
-                <span>Dashboard</span>
+    // 👇️ check if element contains class on mount
+    useEffect(() => {
+        if (refDash.current.classList.contains('show') && theButToggled == true) {
+            dashDivShow = "";
+        }
+    }, []);
+    return (
+        <li className="nav-item">
+        <Link className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i className="fas fa-fw fa-cog"></i>
+            <span>Dashboard</span>
+        </Link>
+        {/*<a className="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i className="fas fa-fw fa-cog"></i>
+            <span>Dashboard</span>
+    </a>*/}
+        <div ref={refDash} id="collapseTwo" className={`collapse ${dashDivShow}`} aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div className="bg-white py-2 collapse-inner rounded">
+                <h6 className="collapse-header">Menu</h6>
+                <Link to="/" className="collapse-item">Jobs</Link>
+                <Link to="/" className="collapse-item">Applications</Link>
+                <Link to="/" className="collapse-item">Profile</Link>
+                <Link to="/" className="collapse-item">Companies</Link>
+            </div>
+        </div>
+    </li>
+    );
+}
+const JobMenuList = () => {
+    const ref = useRef(null);
+    let divShow = "";
+
+    // 👇️ check if element contains class on mount
+    useEffect(() => {
+        if (ref.current.classList.contains('show')) {
+            divShow = "";
+        }
+    }, []);
+    return (
+        <li className="nav-item">
+            <Link className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                aria-expanded="true" aria-controls="collapseUtilities">
+                    <i className="fas fa-fw fa-wrench"></i>
+                <span>Jobs</span>
             </Link>
-            {/*<a className="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                aria-expanded="true" aria-controls="collapseTwo">
-                <i className="fas fa-fw fa-cog"></i>
-                <span>Dashboard</span>
-        </a>*/}
-            <div ref={refDash} id="collapseTwo" className={`collapse ${dashDivShow}`} aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div ref={ref} id="collapseUtilities" className={`collapse ${divShow}`} aria-labelledby="headingUtilities"
+                data-parent="#accordionSidebar">
                 <div className="bg-white py-2 collapse-inner rounded">
-                    <h6 className="collapse-header">Menu</h6>
-                    <Link to="/" className="collapse-item">Jobs</Link>
-                    <Link to="/" className="collapse-item">Applications</Link>
-                    <Link to="/" className="collapse-item">Profile</Link>
-                    <Link to="/" className="collapse-item">Companies</Link>
+                    <h6 className="collapse-header">Job Menu:</h6>
+                    <Link className="collapse-item">New Job</Link>
+                    <Link className="collapse-item">Job List</Link>
+                    <Link className="collapse-item">Job View</Link>
                 </div>
             </div>
         </li>
-        );
-    }
+    );
+}
 
-    const JobMenuList = () => {
-        const ref = useRef(null);
-        let divShow = "";
+export default function Sidebar({butToggled, onToggleClick}) {
 
-        // 👇️ check if element contains class on mount
-        useEffect(() => {
-            if (ref.current.classList.contains('show')) {
-                divShow = "";
-            }
-        }, []);
-        return (
-            <li className="nav-item">
-                <Link className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                        <i className="fas fa-fw fa-wrench"></i>
-                    <span>Jobs</span>
-                </Link>
-                <div ref={ref} id="collapseUtilities" className={`collapse ${divShow}`} aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div className="bg-white py-2 collapse-inner rounded">
-                        <h6 className="collapse-header">Job Menu:</h6>
-                        <Link className="collapse-item">New Job</Link>
-                        <Link className="collapse-item">Job List</Link>
-                        <Link className="collapse-item">Job View</Link>
-                    </div>
-                </div>
-            </li>
-        );
-    }
+    const sidebarRef = useRef();
+    useEffect(() => {
+        if(butToggled == false && window.innerWidth < 480){
+            sidebarRef.className = "toggled";
+        }
+    }, [])
+    
 
     return (
         <ul className={`navbar-nav bg-gradient-primary sidebar sidebar-dark accordion ${butToggled ? "toggled" : ""}`} id="accordionSidebar"> 
@@ -92,7 +100,7 @@ export default function Sidebar({butToggled, onToggleClick}) {
              </div>*/}
             
             
-            <DashMenuList/>
+            <DashMenuList theButToggled={butToggled}/>
             
             <JobMenuList/>
 

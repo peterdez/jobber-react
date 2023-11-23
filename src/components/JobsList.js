@@ -1,14 +1,23 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import {
   retrieveJobs,
   findJobsByTitle,
   deleteAllJobs,
+  deleteJob,
 } from "../slices/jobs";
 import { Link } from "react-router-dom";
 
 const JobsList = () => {
-  const [currentJob, setCurrentJob] = useState(null);
+  let navigate = useNavigate();
+  const initialJobState = {
+    id: null,
+    title: "",
+    description: "",
+    published: false
+  };
+  const [currentJob, setCurrentJob] = useState(initialJobState);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState("");
 
@@ -37,6 +46,12 @@ const JobsList = () => {
                 </td>
                 <td>
                 {job.salary ? "₦" + job.salary : ""}
+                </td>
+                <td>
+                  <div class="d-grid gap-2 d-md-block">
+                    <Link to={`/editJob/${job._id}`} type="button" class="btn btn-primary me-1">Edit</Link>
+                    <button class="btn btn-secondary-b" onClick={() => removeJob(job)}>Delete</button>
+                  </div>
                 </td>
                 </tr>
                 ))
@@ -79,9 +94,22 @@ const JobsList = () => {
     dispatch(findJobsByTitle({ title: searchTitle }));
   };
 
+  const removeJob = (job) => {
+    console.log(job);
+    dispatch(deleteJob({ id: job._id }))
+      .unwrap()
+      .then(() => {
+        window.location.reload(true);
+        //navigate("/jobs");
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   return (
   <>
-    <div className="d-flex align-items-center justify-content-between py-4 border-bottom px-5">
+    <div className="d-flex align-items-center justify-content-between py-4 border-bottom">
         <div><h1 className="h1 m-0 fw-bold">Jobs</h1></div>
         <div>
             <Link to={"/add"} className="btn btn-primary">
@@ -89,13 +117,13 @@ const JobsList = () => {
             </Link>
         </div>
       </div>
-      <nav className="nav nav-pills nav-pills-index nav-justified px-5">
+      <nav className="nav nav-pills nav-pills-index nav-justified">
         <a className="nav-link rounded-0 text-start ps-0 active" aria-current="page" href="/jobs">All Gigs <span className="badge bg-secondary">{jobs.length}</span></a>
         <a className="nav-link rounded-0" href="/jobs/my-jobs">My Jobs <span className="badge bg-secondary-b">32</span></a>
         <a className="nav-link rounded-0" href="#">Rejected Jobs <span className="badge bg-secondary-b">25</span></a>
       </nav>
 
-    <div className="pb-3 pt-4 below-pills px-5">
+    <div className="pb-3 pt-4 below-pills">
         <div className="row row-cols-3 row-cols-lg-6 g-3 no-wrap">
             <div className="col">
                 <a className="btn btn-outline-light w-100" href="#" role="button">Freelance</a>
@@ -128,7 +156,7 @@ const JobsList = () => {
         </div>
     </div>
     
-      <div className="table-responsive px-5">
+      <div className="table-responsive">
         <table className="table align-middle">
           <thead>
             <tr>

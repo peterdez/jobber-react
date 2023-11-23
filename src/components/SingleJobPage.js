@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import JobDataService from "../services/JobService";
 
 export const SingleJobPage = () => {
@@ -41,11 +42,21 @@ export const SingleJobPage = () => {
   }
 
   return (
+    <>
+    <div className="d-flex align-items-center justify-content-between py-4 border-bottom px-5">
+        <div><h1 className="h1 m-0 fw-bold">{currentJob.title}</h1></div>
+        <div>
+            <Link to={"/add"} className="btn btn-primary">
+            Add Job
+            </Link>
+        </div>
+      </div>
     <section>
       <article className="job">
-        <h2>{currentJob.title}</h2>
+        <h2></h2>
         <p className="job-content">{currentJob.description}</p>
       </article>
     </section>
+    </>
   )
 }

@@ -121,6 +121,7 @@ color: #fbb30b !important;
 
 /***** Gig Line  ****/
 ul.gig-line {
+  display: block;
   list-style-type: none;
   position: relative;
   padding-left: 3px;
@@ -180,6 +181,9 @@ border: 3px solid #ffffff;
 }
 
 @media (max-width: 767.98px) {
+  .below-pills a.w-100, .below-pills button.w-100 {
+    font-size: 10px;
+  }
     /*.top-search {width: 100% !important;}
     header .navbar-nav {
         width: 100%;

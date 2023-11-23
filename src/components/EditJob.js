@@ -1,19 +1,23 @@
-import React, { useState, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { createJob } from "../slices/jobs";
+import React from "react";
 import { Link } from "react-router-dom";
-const AddJob = () => {
+import { useDispatch } from "react-redux";
+import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from "react";
+import { updateJob, deleteJob } from "../slices/jobs";
+import JobDataService from "../services/JobService";
+
+export default function EditJob() {
+    const { id }= useParams();
+  let navigate = useNavigate();
+
   const initialJobState = {
     id: null,
     title: "",
     description: "",
-    role: "",
-    company: "",
-    salary: "",
     published: false
   };
-  const [job, setJob] = useState(initialJobState);
-  const [submitted, setSubmitted] = useState(false);
+  const [currentJob, setCurrentJob] = useState(initialJobState);
+  const [message, setMessage] = useState("");
   const remunerationRef = useRef();
   const basicRef = useRef();
 
@@ -27,60 +31,80 @@ const AddJob = () => {
 
   const dispatch = useDispatch();
 
-  const handleInputChange = event => {
-    const { name, value } = event.target;
-    setJob({ ...job, [name]: value });
-  };
-
-  const saveJob = () => {
-    const { title, description, role, company, salary } = job;
-
-    dispatch(createJob({ title, description, role, company, salary }))
-      .unwrap()
-      .then(data => {
-        console.log(data);
-        setJob({
-          id: data.id,
-          title: data.title,
-          description: data.description,
-          role: data.role,
-          company: data.company,
-          salary: data.salary,
-          published: data.published
-        });
-        setSubmitted(true);
+  const getJob = id => {
+    JobDataService.get(id)
+      .then(response => {
+        setCurrentJob(response.data);
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  const newJob = () => {
-    setJob(initialJobState);
-    setSubmitted(false);
+  useEffect(() => {
+    if (id)
+      getJob(id);
+  }, [id]);
+
+  const handleInputChange = event => {
+    const { name, value } = event.target;
+    setCurrentJob({ ...currentJob, [name]: value });
   };
 
-  return (
-    <>
-    <div className="d-flex align-items-center justify-content-between py-4 border-bottom px-5">
-        <div><h1 className="h1 m-0 fw-bold">Add Job</h1></div>
+  const updateStatus = status => {
+    const data = {
+      id: currentJob.id,
+      title: currentJob.title,
+      description: currentJob.description,
+      published: status
+    };
+
+    dispatch(updateJob({ id: currentJob.id, data }))
+      .unwrap()
+      .then(response => {
+        console.log(response);
+        setCurrentJob({ ...currentJob, published: status });
+        setMessage("The status was updated successfully!");
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const updateContent = () => {
+    dispatch(updateJob({ id: currentJob._id, data: currentJob }))
+      .unwrap()
+      .then(response => {
+        console.log(response);
+        setMessage("The job was updated successfully!");
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const removeJob = () => {
+    dispatch(deleteJob({ id: currentJob.id }))
+      .unwrap()
+      .then(() => {
+        navigate("/jobs");
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+    return (
+        <>
+        <div className="d-flex align-items-center justify-content-between py-4 border-bottom px-5">
+        <div><h1 className="h1 m-0 fw-bold">Edit Job</h1></div>
         <div>
-            <Link to={"/jobs"} className="btn btn-primary">
-              Jobs
+            <Link to={"/add"} className="btn btn-primary">
+              Add Job
             </Link>
         </div>
-    </div>
-    <div className="submit-form">
-      {submitted ? (
-        <div className="mt-4">
-          <h4>You submitted successfully!</h4>
-          <button className="btn btn-success" onClick={newJob}>
-            Add
-          </button>
-        </div>
-      ) : (
-        <>
-        <div id="add_gig_form" className="gig-form g-3 mb-5 mt-4">
+      </div>
+      <p className={message ? "alert alert-success mt-4" : ""}>{message}</p>
+      <div id="edit_gig_form" className="gig-form g-3 mb-5 mt-4">
         <div className="d-md-flex align-items-start px-3">
           <div className="nav flex-column nav-pills nav-pills-inner px-4 py-2 pt-md-2 pb-md-4 mb-2 mx-md-4 w-25 bg-white shadow-lg rounded" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <div className="col-md-12">  
@@ -105,69 +129,27 @@ const AddJob = () => {
              <div className="row g-3">
       
                 <div className="col-md-6">
-                  <label htmlFor="title" className="form-label">Job Title</label>
-                  <input
-              type="text"
-              className="form-control"
-              id="title"
-              required
-              value={job.title || ''}
-              onChange={handleInputChange}
-              name="title"
-            />
+                  <label for="title" className="form-label">Gig Title</label>
+                  <input type="text" name="title" id="title" className="form-control" onChange={handleInputChange} value={currentJob.title}/>
                 </div>
       
                 <div className="col-md-6">
-                  <label htmlFor="description" className="form-label">Short Description</label>
-                  <input
-              type="text"
-              className="form-control"
-              id="description"
-              required
-              value={job.description || ''}
-              onChange={handleInputChange}
-              name="description"
-            />
+                  <label for="description" className="form-label">Short Description</label>
+                  <input type="text" name="description" id="description" className="form-control" onChange={handleInputChange} value={currentJob.description}/>
                 </div>
       
-                {/*<div className="col-md-6">
+                <div className="col-md-6">
                   <label for="role_id" className="form-label">Role</label>
                   <select className="form-select" name="role_id" aria-label="Default select example">
                       
                     </select>
-                </div>*/}
-
-                <div className="col-md-6">
-                  <label htmlFor="role" className="form-label">Role</label>
-                  <input
-              type="text"
-              className="form-control"
-              id="role"
-              required
-              value={job.role || ''}
-              onChange={handleInputChange}
-              name="role"
-            />
                 </div>
       
-                {/*<div className="col-md-6">
+                <div className="col-md-6">
                   <label for="company_id" className="form-label">Company</label>
                   <select className="form-select" name="company_id" aria-label="Default select example">
                       
                     </select>
-                </div>*/}
-
-                <div className="col-md-6">
-                  <label htmlFor="company" className="form-label">Company</label>
-                  <input
-              type="text"
-              className="form-control"
-              id="company"
-              required
-              value={job.company || ''}
-              onChange={handleInputChange}
-              name="company"
-            />
                 </div>
       
                 <label for="location" className="form-label">Location</label>
@@ -206,7 +188,7 @@ const AddJob = () => {
                 <div className="col-md-12">
                 <div className="float-end">
                 <a href="/jobs" type="button" className="btn">Cancel</a>
-                <button className="btn btn-primary" id="continue_btn" data-target="#v-pills-remuneration" type="button" onClick={triggerRemuneration}>Continue</button>
+                <button className="btn btn-primary" id="continue_btn" type="button" onClick={triggerRemuneration}>Continue</button>
                 </div>
                 </div>
       
@@ -215,26 +197,18 @@ const AddJob = () => {
       
             </div>
             <div className="tab-pane" id="v-pills-remuneration" role="tabpanel" aria-labelledby="v-pills-remuneration-tab">
-              <label htmlFor="salary" className="form-label">Salary</label>
+              <label for="salary" className="form-label">Salary</label>
               <div className="row g-3">
       
               <div className="col-md-12">
-              <input
-              type="text"
-              className="form-control"
-              id="salary"
-              required
-              value={job.salary || ''}
-              onChange={handleInputChange}
-              name="salary"
-            />
+                 <input type="text" name="salary" id="salary" className="form-control" onChange={handleInputChange} value={currentJob.salary}/>
                 
                 </div>
       
                 <div className="col-md-12">
                   <div className="float-end">
                   <button className="btn" id="gig_create_back" type="button" onClick={triggerBasic}>Back</button>
-                  <button onClick={saveJob} className="btn btn-primary">Add Job</button>
+                  <button type="submit" className="btn btn-primary" onClick={updateContent}>Update Job</button>
                   </div>
                 </div>
               </div>
@@ -242,14 +216,7 @@ const AddJob = () => {
           </div>
         </div>
       </div>
-        
-        
-        
-        </>
-      )}
-    </div>
-    </>
-  );
-};
+      </>
+    );
+}
 
-export default AddJob;
