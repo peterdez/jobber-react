@@ -156,7 +156,7 @@ const JobsList = () => {
         </div>
       </div>
       <nav className="nav nav-pills nav-pills-index nav-justified">
-        <a className="nav-link rounded-0 text-start ps-0 active" aria-current="page" href="/jobs">All Gigs <span className="badge bg-secondary">{jobs.length}</span></a>
+        <a className="nav-link rounded-0 ps-0 active" aria-current="page" href="/jobs">All Jobs <span className="badge bg-secondary">{jobs.length}</span></a>
         <a className="nav-link rounded-0" href="/jobs/my-jobs">My Jobs <span className="badge bg-secondary-b">32</span></a>
         <a className="nav-link rounded-0" href="#">Rejected Jobs <span className="badge bg-secondary-b">25</span></a>
       </nav>
