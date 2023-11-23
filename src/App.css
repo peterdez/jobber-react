@@ -184,6 +184,11 @@ border: 3px solid #ffffff;
   .below-pills a.w-100, .below-pills button.w-100 {
     font-size: 10px;
   }
+  #add_gig_form #v-pills-tab, #add_gig_form #v-pills-tabContent,
+  #edit_gig_form #v-pills-tab, #edit_gig_form #v-pills-tabContent
+   {
+    width: 100% !important;
+  }
     /*.top-search {width: 100% !important;}
     header .navbar-nav {
         width: 100%;
