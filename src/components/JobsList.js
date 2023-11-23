@@ -10,7 +10,6 @@ import {
 import { Link } from "react-router-dom";
 
 const JobsList = () => {
-  let navigate = useNavigate();
   const initialJobState = {
     id: null,
     title: "",
@@ -23,6 +22,45 @@ const JobsList = () => {
 
   const jobs = useSelector(state => state.jobs);
   const dispatch = useDispatch();
+  let navigate = useNavigate();
+
+  const mockJobs = [
+    {id: 1, title: 'Software Engineer', description: 'Developing software', role: 'Manager', company: 'Google', salary: '100000', date: '8/11/2022'},
+    {id: 1, title: 'Software Engineer', description: 'Developing software', role: 'Manager', company: 'Google', salary: '100000', date: '8/11/2022'},
+    {id: 1, title: 'Software Engineer', description: 'Developing software', role: 'Manager', company: 'Google', salary: '100000', date: '8/11/2022'}
+  ];
+
+  const renderedMockJobs = mockJobs &&
+            mockJobs.map((job, key) => (
+                <tr className="bg-white rounded mb-2" key="job._id">
+                    <td>
+            <div className="form-check">
+              <input className="form-check-input" type="checkbox" value="" id=""/>
+            </div>
+            </td>
+                <td>
+                <Link to={`/jobs/${job._id}`}>{job.title}</Link>
+                </td>
+                <td>
+                {job.role}
+                </td>
+                <td>
+                {job.company}
+                </td>
+                <td>
+                {job.date}
+                </td>
+                <td>
+                {job.salary ? "₦" + job.salary : ""}
+                </td>
+                <td>
+                  <div class="d-grid gap-2 d-md-block">
+                    <button type="button" class="btn btn-primary me-1">Edit</button>
+                    <button class="btn btn-secondary-b">Delete</button>
+                  </div>
+                </td>
+                </tr>
+                ))
 
   const renderedJobs = jobs &&
             jobs.map((job, key) => (
@@ -170,7 +208,7 @@ const JobsList = () => {
             </tr>
           </thead>
           <tbody>
-          {renderedJobs}
+          {renderedJobs.length > 0 ? renderedJobs : renderedMockJobs}
           </tbody>
         </table>
         
