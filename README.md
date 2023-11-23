@@ -1,5 +1,8 @@
 # Job board application admin dashboard built with React and Redux
 
 This is part of a MERN Stack application
+### Job List
+![alt text](https://webpromedia.com.ng/resources/jobber_scrnshot_1.jpg)
 
-![alt text](https://webpromedia.com.ng/resources/jobber_scrnshot.jpg)
+### Add Job
+![alt text](https://webpromedia.com.ng/resources/jobber_scrnshot_2.jpg)
