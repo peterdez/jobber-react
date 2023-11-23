@@ -197,9 +197,7 @@ const AddJob = () => {
                 <label for="tags" className="form-label">Add tags</label>
                 <input type="text" className="form-control" data-role="tagsinput" placeholder="" aria-label="tags"/>
                 <p className="text-muted mt-2">Suggested tags: 
-                  <span className="text-decoration-underline">full time</span> 
-                <span className="text-decoration-underline">contract</span>  
-                <span className="text-decoration-underline">freelance</span>
+                <span className="text-decoration-underline"> full time, contract, freelance</span>
                  </p>
                 </div>
       
