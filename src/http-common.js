@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://jobber-react-4d3gz4rcu-peterdez.vercel.app/api",
+  baseURL: "https://jobber-api-669b1.web.app/api",
   headers: {
     "Content-type": "application/json"
   }
