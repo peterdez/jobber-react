@@ -139,15 +139,12 @@ const AddJob = () => {
 
                 <div className="col-md-6">
                   <label htmlFor="role" className="form-label">Role</label>
-                  <input
-              type="text"
-              className="form-control"
-              id="role"
-              required
-              value={job.role || ''}
-              onChange={handleInputChange}
-              name="role"
-            />
+                    <select value={job.role || ''} className="form-select" id="role" name="role" onChange={handleInputChange} required>
+                    <option value="Technology">Technology</option>
+                    <option value="Operations">Operations</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Finance">Finance</option>
+                    </select>
                 </div>
       
                 {/*<div className="col-md-6">
@@ -159,15 +156,12 @@ const AddJob = () => {
 
                 <div className="col-md-6">
                   <label htmlFor="company" className="form-label">Company</label>
-                  <input
-              type="text"
-              className="form-control"
-              id="company"
-              required
-              value={job.company || ''}
-              onChange={handleInputChange}
-              name="company"
-            />
+                    <select value={job.company || ''} id="company" className="form-select" name="company" onChange={handleInputChange} required>
+                    <option value="Google">Google</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Twitter">Twitter</option>
+                    <option value="Tesla">Tesla</option>
+                    </select>
                 </div>
       
                 <label for="location" className="form-label">Location</label>

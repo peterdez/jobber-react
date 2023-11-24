@@ -61,9 +61,9 @@ const JobsList = () => {
                 </td>
                 </tr>
                 ))
-
+  const orderedJobs = jobs.slice().sort().reverse();
   const renderedJobs = jobs &&
-            jobs.map((job, key) => (
+             orderedJobs.map((job, key) => (
                 <tr className="bg-white rounded mb-2" key="job._id">
                     <td>
             <div className="form-check">

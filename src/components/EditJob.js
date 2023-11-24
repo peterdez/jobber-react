@@ -139,16 +139,22 @@ export default function EditJob() {
                 </div>
       
                 <div className="col-md-6">
-                  <label for="role_id" className="form-label">Role</label>
-                  <select className="form-select" name="role_id" aria-label="Default select example">
-                      
+                  <label htmlFor="role" className="form-label">Role</label>
+                  <select value={currentJob.role} className="form-select" name="role" onChange={handleInputChange}>
+                  <option value="Technology">Technology</option>
+                    <option value="Operations">Operations</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Finance">Finance</option>
                     </select>
                 </div>
       
                 <div className="col-md-6">
-                  <label for="company_id" className="form-label">Company</label>
-                  <select className="form-select" name="company_id" aria-label="Default select example">
-                      
+                  <label htmlFor="company" className="form-label">Company</label>
+                  <select value={currentJob.company} className="form-select" name="company" onChange={handleInputChange}>
+                    <option value="Google">Google</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Twitter">Twitter</option>
+                    <option value="Tesla">Tesla</option>
                     </select>
                 </div>
       
