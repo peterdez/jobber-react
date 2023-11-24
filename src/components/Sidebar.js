@@ -54,7 +54,7 @@ const JobMenuList = () => {
         <li className="nav-item">
             <Link className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                 aria-expanded="true" aria-controls="collapseUtilities">
-                    <i className="fas fa-fw fa-wrench"></i>
+                    <i className="fas fa-fw fa-briefcase"></i>
                 <span>Jobs</span>
             </Link>
             <div ref={ref} id="collapseUtilities" className={`collapse ${divShow}`} aria-labelledby="headingUtilities"
