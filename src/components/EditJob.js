@@ -98,7 +98,7 @@ export default function EditJob() {
         <div className="d-flex align-items-center justify-content-between py-4 border-bottom px-5">
         <div><h1 className="h1 m-0 fw-bold">Edit Job</h1></div>
         <div>
-            <Link to={"/add"} className="btn btn-primary">
+            <Link to={"/jobs/add"} className="btn btn-primary">
               Add Job
             </Link>
         </div>

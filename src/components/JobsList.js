@@ -9,7 +9,10 @@ import {
 } from "../slices/jobs";
 import { Link } from "react-router-dom";
 
+import AuthService from "../services/auth.service";
+
 const JobsList = () => {
+  const currentUser = AuthService.getCurrentUser();
   const initialJobState = {
     id: null,
     title: "",
@@ -19,6 +22,7 @@ const JobsList = () => {
   const [currentJob, setCurrentJob] = useState(initialJobState);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState(null);
 
   const jobs = useSelector(state => state.jobs);
   const dispatch = useDispatch();
@@ -87,12 +91,49 @@ const JobsList = () => {
                 </td>
                 <td>
                   <div class="d-grid gap-2 d-md-block">
-                    <Link to={`/editJob/${job._id}`} type="button" class="btn btn-primary me-1">Edit</Link>
-                    <button class="btn btn-secondary-b" onClick={() => removeJob(job)}>Delete</button>
+                    {/*<Link to={`editJob/${job._id}`} type="button" class="btn btn-primary me-1">Edit</Link>*/}
+                    <button class="btn btn-primary me-1" onClick={() => handleEditJobClick(job.id)}>Edit</button>
+                    <button class="btn btn-secondary-b" onClick={() => handleDeleteJobClick(job)}>Delete</button>
                   </div>
                 </td>
                 </tr>
                 ))
+
+  const handleAddJobClick = () => {
+    if(!currentUser || !currentUser.roles.includes("ROLE_ADMIN")){
+      setAlertMessage("You cannot add a job")
+    }
+    else{
+      navigate("/jobs/add")
+    }
+  }
+
+  const handleEditJobClick = (id) => {
+    if(!currentUser || !currentUser.roles.includes("ROLE_ADMIN")){
+      setAlertMessage("You cannot edit a job")
+    }
+    else{
+      navigate("/jobs/editJob/:id")
+    }
+  }
+
+  const handleDeleteJobClick = (job) => {
+    if(!currentUser || !currentUser.roles.includes("ROLE_ADMIN")){
+      setAlertMessage("You cannot delete a job");
+    }
+    else{
+      removeJob(job)
+      //navigate("/jobs/editJob/:id")
+    }
+  }
+
+  useEffect(() => {
+    if(alertMessage){
+      setTimeout(() => {
+        setAlertMessage(null);
+      }, 1000);
+    }
+  },[alertMessage])
 
   const onChangeSearchTitle = e => {
     const searchTitle = e.target.value;
@@ -147,12 +188,11 @@ const JobsList = () => {
 
   return (
   <>
+  {alertMessage ? <p className="alert alert-danger">{alertMessage}</p> : ""}
     <div className="d-flex align-items-center justify-content-between py-4 border-bottom">
         <div><h1 className="h1 m-0 fw-bold">Jobs</h1></div>
         <div>
-            <Link to={"/add"} className="btn btn-primary">
-              Add Job
-            </Link>
+            <button onClick={handleAddJobClick} className="btn btn-primary">Add Job</button>
         </div>
       </div>
       <nav className="nav nav-pills nav-pills-index nav-justified">

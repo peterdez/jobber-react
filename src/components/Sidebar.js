@@ -31,9 +31,9 @@ const DashMenuList = ({theButToggled}) => {
         <div ref={refDash} id="collapseTwo" className={`collapse ${dashDivShow}`} aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div className="bg-white py-2 collapse-inner rounded">
                 <h6 className="collapse-header">Menu</h6>
-                <Link to="/" className="collapse-item">Jobs</Link>
+                <Link to="/jobs" className="collapse-item">Jobs</Link>
                 <Link to="/" className="collapse-item">Applications</Link>
-                <Link to="/" className="collapse-item">Profile</Link>
+                <Link to="/profile" className="collapse-item">Profile</Link>
                 <Link to="/" className="collapse-item">Companies</Link>
             </div>
         </div>
@@ -61,8 +61,8 @@ const JobMenuList = () => {
                 data-parent="#accordionSidebar">
                 <div className="bg-white py-2 collapse-inner rounded">
                     <h6 className="collapse-header">Job Menu:</h6>
-                    <Link className="collapse-item">New Job</Link>
-                    <Link className="collapse-item">Job List</Link>
+                    <Link to="/jobs/add" className="collapse-item">New Job</Link>
+                    <Link to="/jobs" className="collapse-item">Job List</Link>
                     <Link className="collapse-item">Job View</Link>
                 </div>
             </div>
@@ -82,7 +82,7 @@ export default function Sidebar({butToggled, onToggleClick}) {
 
     return (
         <ul className={`navbar-nav bg-gradient-primary sidebar sidebar-dark accordion ${butToggled ? "toggled" : ""}`} id="accordionSidebar"> 
-            <Link to="/" className="sidebar-brand d-flex align-items-center justify-content-center">
+            <Link to="/jobs" className="sidebar-brand d-flex align-items-center justify-content-center">
             <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-briefcase"></i>
                 </div>
